@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>T3 Bank</title>
+    <link rel="stylesheet" type="text/css" href="t3 bank.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<style>body{
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	font-family: 'Jost', sans-serif;
+	background-color: #012d50;
+	position: relative;
+	overflow: hidden;
+}
+
+.moving-image-1,
+.moving-image-2,
+.moving-image-3,
+.moving-image-4 {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	object-fit: contain;
+	z-index: 1;
+	opacity: 0.5;
+}
+
+.moving-image-1 {
+	top: 5%;
+	left: 0%;
+	animation: moveImage1 7s linear infinite alternate;
+}
+	
+.moving-image-2 {
+	top: 30%;
+	right: 0%;
+	animation: moveImage2 7s linear infinite alternate;
+}
+	
+.moving-image-3 {
+	top: 65%;
+	left: 20%;
+	animation: moveImage3 7s linear infinite alternate;
+}
+	
+.moving-image-4 {
+	top: 90%;
+	right: 0%;
+	animation: moveImage4 7s linear infinite alternate;
+}
+
+@keyframes moveImage1 {
+	0% {
+		left: 0%;
+	}
+	100% {
+		left: 95%;
+	}
+}
+
+@keyframes moveImage2 {
+	0% {
+		right: 00%;
+	}
+	100% {
+		right: 95%;
+	}
+}
+
+@keyframes moveImage3 {
+	0% {
+		left: 0%;
+	}
+	100% {
+		left: 95%;
+	}
+}
+	
+@keyframes moveImage4 {
+	0% {
+		right: 0%;
+	}
+	100% {
+		right: 95%;
+	}
+}
+
+.logo-container img {
+	max-width: 400px;
+	max-height: 400px;
+	object-fit: contain;
+	box-shadow: none;
+	position: relative;
+	left: -160px;
+	animation-name: example;
+	animation-duration: 2s;
+	z-index: 2;
+}
+
+@keyframes example {
+	0% {
+		left:-300px;
+	}
+}
+
+.main{
+	width: 350px;
+	height: 500px;
+	background: red;
+	position: relative; 
+	right: -70px;
+	overflow: hidden;
+	background: url("https://i.ibb.co/YDPxXwt/dots-6297146-1920.jpg") no-repeat center/ cover;
+	border-radius: 10px;
+	box-shadow: 5px 20px 50px #000;
+	animation-name: example1;
+	animation-duration: 2s;
+	z-index: 2;
+}
+
+@keyframes example1 {
+	0% {
+		right:-300px;
+	}
+}
+
+#chk{
+	display: none;
+
+}
+
+.signup{
+	position: relative;
+	width:100%;
+	height: 100%;
+}
+
+label{
+	color: #fff;
+	font-size: 2.3em;
+	justify-content: center;
+	display: flex;
+	margin: 60px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: .5s ease-in-out;
+}
+
+input{
+	width: 60%;
+	height: 20px;
+	background: #e0dede;
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 10px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+
+button{
+	width: 60%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: #fff;
+	background: #012d50;
+	font-size: 1em;
+	font-weight: bold;
+	margin-top: 20px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+	cursor: pointer;
+}
+
+button:hover{
+	background: #ffffff;
+	color: #012d50;
+
+}
+.login{
+	height: 460px;
+	background: #eee;
+	border-radius: 60% / 10%;
+	transform: translateY(-180px);
+	transition: .8s ease-in-out;
+
+}
+
+.login label{
+	color: #012d50;
+	transform: scale(.6);
+}
+
+#chk:checked ~ .login{
+	transform: translateY(-500px);
+
+}
+
+#chk:checked ~ .login label{
+	transform: scale(1);	
+}
+
+#chk:checked ~ .signup label{
+	transform: scale(.6);
+}
+</style>
+<body>
+    <div class="logo-container">
+        <img src="https://i.ibb.co/p0PjqqF/logo-png.png" alt="Logo">
+    </div>
+
+    <div class="main">  
+        <input type="checkbox" id="chk" aria-hidden="true">
+
+        <div class="signup">
+            <form id="signup-form">
+                <label for="chk" aria-hidden="true">Sign up</label>
+                <input type="text" name="email" placeholder="Email" required>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="button" onclick="signup()">Sign up</button>
+                <div id="signup-message"></div> 
+            </form>
+        </div>
+
+        <div class="login">
+            <form id="login-form">
+                <label for="chk" aria-hidden="true">Login</label>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="button" onclick="login()">Login</button>
+                <div id="login-message"></div> 
+            </form>
+        </div>
+    </div>
+    
+    <img class="moving-image-1" src="https://i.ibb.co/qgDkC4f/money-bag-2953363.png" alt="Image 1">
+    <img class="moving-image-2" src="https://i.ibb.co/Br8VT8x/money-2454282.png" alt="Image 2">
+    <img class="moving-image-3" src="https://i.ibb.co/SxWJ2k1/save-money-1611179.png" alt="Image 3">
+    <img class="moving-image-4" src="https://i.ibb.co/DYMyp1R/wallet-584067.png" alt="Image 4">
+
+    <script>
+        function displayMessage(message, elementId, isError = true) {
+            var messageDiv = document.getElementById(elementId);
+            messageDiv.innerText = message;
+            messageDiv.style.color = isError ? 'red' : 'green';  // Customize the style as needed
+        }
+
+        function signup() {
+    var form = document.getElementById("signup-form");
+    var formData = new FormData(form);
+    var jsonData = {};
+    formData.forEach(function(value, key){
+        jsonData[key] = value;
+    });
+
+    // Get the username from the form data
+    var username = jsonData["username"];
+
+    console.log(username); // Add this line to log the username
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/signup");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload = function() {
+        var response = JSON.parse(xhr.responseText);
+        if (xhr.status == 201) {
+            displayMessage("Sign up successful! Please log in.", "signup-message", false);
+            form.reset();
+
+            // Set the username in the HTML element with ID "username"
+            document.getElementById("username").textContent = username;
+        } else {
+            displayMessage(response.message, "signup-message");
+        }
+    };
+    xhr.send(JSON.stringify(jsonData));
+}
+
+
+        function login() {
+            var form = document.getElementById("login-form");
+            var formData = new FormData(form);
+            var jsonData = {};
+            formData.forEach(function(value, key){
+                jsonData[key] = value;
+            });
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/signin");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onload = function() {
+                var response = JSON.parse(xhr.responseText);
+                if (xhr.status == 200) {
+                    displayMessage("Login successful!", "login-message", false);
+                    window.location.href = '/dashboard'; 
+                } else {
+                    displayMessage(response.message, "login-message");
+                }
+            };
+            xhr.send(JSON.stringify(jsonData));
+        }
+    </script>
+</body>
+</html>

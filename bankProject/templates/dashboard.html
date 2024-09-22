@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T3 Bank</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    /* CSS remains the same */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        height: 100vh;
+        background: #f6faf4;
+        color: #333;
+        overflow: hidden;
+    }
+    .sidebar {
+        background: #123456; /* Deep blue */
+        color: #ffffff;
+        padding: 20px;
+        width: 300px; /* Adjusted width */
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-shadow: 3px 0 15px rgba(0,0,0,0.2);
+        flex-shrink: 0;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center; /* Align items vertically */
+        justify-content: start; /* Align items horizontally */
+        margin-left: -20px;
+        margin-bottom: -20px;
+    }
+
+    .logo img {
+        width: 130px; /* Adjust based on your actual logo size */
+        height: auto; /* Fixed height for logo */
+        margin-right: -20px; /* Space between logo and text */
+    }
+
+    .bank-name {
+        margin-top: -3px;
+        font-size: 34px; /* Adjust size as needed */
+        color: #ffffff; /* White color text */
+        font-weight: 600; /* Font weight for the bank name */
+    }
+
+    .menu-item {
+        margin: 15px 0;
+        padding: 15px;
+        border-radius: 12px;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        transition: 0.5s;
+    }
+    .menu-item:hover, .menu-item.active {
+        background: rgb(255, 255, 255);
+        color: #000;
+        transform: translateY(5px);
+    }
+    .menu-item i {
+        margin-right: 10px;
+    }
+    .content {
+        flex-grow: 1;
+        padding: 40px;
+        background: url(https://i.ibb.co/YDPxXwt/dots-6297146-1920.jpg);
+        height: 100vh;
+        overflow-y: auto;
+    }
+    .content-section {
+        display: none; /* Initially hide all content sections */
+        opacity: 0;
+        transition: 0.5s;
+    }
+
+    .content-section.show {
+        display: block;
+        opacity: 1;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between; /* Pushes the greeting to the left and the logout button to the right */
+        align-items: center; /* Vertically aligns items in the middle */
+        margin-bottom: 40px; /* Maintains space below this section */
+        width: 100%; /* Ensures the header uses the full width of its container */
+    }
+    .welcome {
+        margin-top: 20px;
+        font-size: 30px;
+        color: #ffffff;
+    }
+    .balance-box {
+        background: #ffffff;
+        padding: 70px; /* Increase padding for larger appearance */
+        width: 400px;
+        font-size: 30px; /* Larger font size for better visibility */
+        cursor: pointer;
+        border-radius: 12px;
+        justify-content: center; /* Center the text and icon */
+        text-align: center; /* Ensure text is centered inside the box */
+        margin: 20px 0; /* Add some margin around the box */
+        transition: 0.5s;
+        margin-top: 40px;
+    }
+    
+    .balance-box:hover {
+        background: #f3f3f3;
+        transform: translateY(-5px);
+    }
+    #accountContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* Adjust spacing between boxes */
+}
+
+.account-box, .new-account-box {
+    background: #ffffff; /* White background */
+    padding: 50px; /* Customizable padding */
+    width: calc(40% - 60px); /* Custom width, ensuring two boxes per row */
+    font-size: 18px; /* Slightly smaller font size than the balance box */
+    cursor: pointer; /* Cursor changes to pointer on hover */
+    border-radius: 12px; /* Rounded corners */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center content text */
+    transition: 0.5s; /* Smooth transformation on hover */
+    position: relative; /* For positioning remove icon */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+.account-box:hover, .new-account-box:hover {
+    background: #f3f3f3; /* Lighter shade on hover */
+    transform: translateY(-5px); /* Slight upward lift on hover */
+}
+
+.new-account-box i {
+    margin-right: 10px; /* Space between the icon and the text */
+    font-size: 32px; /* Slightly larger font size for the icon */
+}
+
+.remove-account {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #ce1111;
+    font-size: 16px;
+    transition: 0.5s;
+}
+
+.remove-account:hover {
+    color: #000;
+}
+
+
+
+    .withdrawal-box, .deposit-box {
+        background: #ffffff; /* White background */
+        padding: 70px; /* Customizable padding */
+        width: 400px; /* Custom width */
+        font-size: 24px; /* Slightly smaller font size than the balance box */
+        cursor: pointer; /* Cursor changes to pointer on hover */
+        border-radius: 12px; /* Rounded corners */
+        justify-content: center; /* Center content horizontally */
+        text-align: center; /* Center content text */
+        margin: 20px 0; /* Center box horizontally and add vertical margin */
+        transition: 0.5s; /* Smooth transformation on hover */
+    }
+
+    .withdrawal-box:hover, .deposit-box:hover {
+        background: #f3f3f3; /* Lighter shade on hover */
+        transform: translateY(-5px); /* Slight upward lift on hover */
+    }
+    .withdrawal-box i, .deposit-box i {
+        margin-right: 10px; /* Space between the icon and the text */
+        font-size: 32px; /* Slightly larger font size for the icon */
+    }
+    /* Style for the modal background */
+    .withdrawal-modal, .deposit-modal, .transfer-modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        transition: background-color 0.5s ease;
+    }
+
+    /* Modal Content */
+    .withdrawal-modal-content, .deposit-modal-content, .transfer-modal-content {
+        transform: scale(0.9);
+        background-color: #123456;
+        color: #ffffff;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 30px;
+        border: 1px solid #888;
+        border-radius: 12px;
+        width: 100%; /* Could be more or less, depending on screen size */
+        max-width: 600px; /* Maximum width */
+        opacity: 0;
+        transition: all 0.5s ease; /* Transition for transform and opacity */
+    }
+
+    /* The Close Button */
+    .close-button {
+        color: #ffffff;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    input[type="number"], input[type="text"], select {
+        width: calc(100% - 40px);
+        padding: 10px 20px;
+        margin-top: 20px;
+        font-size: 20px;
+        border: none;
+        border-radius: 8px;
+        background: #f3f3f3;
+        color: #333;
+        transition: background 0.3s ease;
+    }
+    input[type="number"]:focus, input[type="text"]:focus, select:focus {
+        background: #e0e0e0;
+    }
+    .enterAmountInBetwwenAccounts-heading {
+        margin-top: 20px; /* Adjust this value to increase or decrease the space */
+    }
+    .enterAmountInBeneficiary-heading{
+        margin-top: 20px;
+    }
+    .modal-button {
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white; /* White text */
+        border: none;
+        border-radius: 12px;
+        cursor: pointer; /* Cursor changes to pointer on hover */
+        margin-top: 20px; /* Space from the input box */
+        margin-left: 420px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 18px; /* Font size for readability */
+        transition: 0.5s; /* Smooth transition for hover effect */
+    }
+
+    .modal-button:hover {
+        background: rgb(255, 255, 255);
+        color: #000;
+    }
+    .transfer-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.transfer-box {
+    background: #ffffff; /* White background */
+    padding: 80px; /* Customizable padding */
+    width: 480px; /* Custom width */
+    font-size: 24px; /* Slightly smaller font size than the balance box */
+    cursor: pointer; /* Cursor changes to pointer on hover */
+    border-radius: 12px; /* Rounded corners */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center content text */
+    margin: 20px; /* Center box horizontally and add vertical margin */
+    transition: 0.5s; /* Smooth transformation on hover */
+}
+
+.transfer-box:hover {
+    background: #f3f3f3; /* Lighter shade on hover */
+    transform: translateY(-5px); /* Slight upward lift on hover */
+}
+
+.transfer-box i {
+    margin-right: 10px; /* Space between the icon and the text */
+    font-size: 32px; /* Slightly larger font size for the icon */
+}
+
+
+    .sign-out {
+        background: #ffffff;
+        color: #ce1111;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 18px;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.5s;
+    }
+    .sign-out:hover {
+        background: #000000;
+        color: #ffffff;
+        transform: translateY(5px);
+    }
+    .sign-out i {
+        margin-right: 5px;
+    }
+</style>
+</head>
+<body>
+<div class="sidebar">
+    <div class="logo">
+        <img src="https://i.ibb.co/85s2rNt/Bank-logo-without-text.png" alt="Bank Logo">
+        <span class="bank-name">T3 Bank</span>
+    </div>
+    <div class="menu-item" id="overviewBtn"><i class="fas fa-tachometer-alt"></i> Overview</div>
+    <div class="menu-item" id="accountsBtn"><i class="fas fa-user"></i> Accounts</div>
+    <div class="menu-item" id="depositBtn"><i class="fas fa-credit-card"></i> Deposit</div>
+    <div class="menu-item" id="withdrawalBtn"><i class="fas fa-hand-holding-usd"></i> Withdrawal</div>
+    <div class="menu-item" id="transferBtn"><i class="fas fa-exchange-alt"></i> Transfer</div>
+</div>
+<div class="content">
+    <div id="overviewContent" class="content-section">
+        <div class="header">
+           <div class="welcome">Hi, <strong id="usernamePlaceholder">User</strong>!</div>
+            <button class="sign-out"><i class="fas fa-sign-out-alt"></i> Log out</button>
+        </div>
+        <div class="balance-box"> 
+            Total Balance <strong>$9,870.00</strong>
+        </div>
+    </div>
+    <div id="accountsContent" class="content-section">
+        <div class="header">
+           <div class="welcome">Hi, <strong id="usernamePlaceholder">User</strong>!</div>
+            <button class="sign-out"><i class="fas fa-sign-out-alt"></i> Log out</button>
+        </div>
+        <div id="accountContainer">
+            <div class="account-box" id="baseAccount">
+                <div>Account Number</div>
+                <div><strong>1234567890</strong></div>
+                <div>Balance</div>
+                <div><strong>$5000.00</strong></div>
+            </div>
+            <div class="new-account-box" id="createAccountBtn">
+                <i class="fas fa-plus"></i> Create New Account
+            </div>
+        </div>
+        
+    </div>
+    <div id="depositContent" class="content-section">
+        <div class="header">
+           <div class="welcome">Hi, <strong id="usernamePlaceholder">User</strong>!</div>
+            <button class="sign-out"><i class="fas fa-sign-out-alt"></i> Log out</button>
+        </div>
+        <div class="deposit-box">
+            <i class="fas fa-credit-card"></i> Deposit Money
+        </div>
+        <!-- Modal for deposit amount input -->
+        <div id="depositModal" class="deposit-modal">
+            <div class="deposit-modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Enter The Amount</h2>
+                <input type="number" id="depositAmount" Username="Amount in USD" autofocus>
+                <button id="depositButton" class="modal-button">Deposit</button>
+            </div>
+        </div>
+    </div>
+    <div id="withdrawalContent" class="content-section">
+        <div class="header">
+           <div class="welcome">Hi, <strong id="usernamePlaceholder">User</strong>!</div>
+            <button class="sign-out"><i class="fas fa-sign-out-alt"></i> Log out</button>
+        </div>
+        <div class="withdrawal-box">
+            <i class="fas fa-hand-holding-usd"></i> Withdraw Money
+        </div>
+        <!-- Modal for withdrawal amount input -->
+        <div id="withdrawalModal" class="withdrawal-modal">
+            <div class="withdrawal-modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Enter The Amount</h2>
+                <input type="number" id="withdrawAmount" Username="Amount in USD" autofocus>
+                <button id="withdrawButton" class="modal-button">Withdraw</button>
+            </div>
+        </div>
+    </div>
+    <div id="transferContent" class="content-section">
+        <div class="header">
+           <div class="welcome">Hi, <strong id="usernamePlaceholder">User</strong>!</div>
+            <button class="sign-out"><i class="fas fa-sign-out-alt"></i> Log out</button>
+        </div>
+        <div class="transfer-container">
+            <div class="transfer-box" id="betweenAccountsBtn">
+                <i class="fas fa-exchange-alt"></i> Between My Accounts
+            </div>
+            <div class="transfer-box" id="beneficiaryTransferBtn">
+                <i class="fas fa-university"></i> T3 Bank Beneficiary
+            </div>
+        </div>
+        <!-- Modal for transfer between accounts -->
+        <div id="betweenAccountsModal" class="transfer-modal">
+            <div class="transfer-modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Choose Account</h2>
+                <select id="accountList" autofocus>
+                    <option value="account1">Account 1</option>
+                    <option value="account2">Account 2</option>
+                    <!-- Add more options as needed -->
+                </select>
+                <h2 class="enterAmountInBetwwenAccounts-heading">Enter Amount</h2>
+                <input type="number" id="transferAmount" Username="Amount in USD">
+                <button id="betweenAccountsButton" class="modal-button">Transfer</button>
+            </div>
+        </div>
+        <!-- Modal for transfer to beneficiary -->
+        <div id="beneficiaryTransferModal" class="transfer-modal">
+            <div class="transfer-modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Enter Beneficiary Account Number</h2>
+                <input type="text" id="beneficiaryAccount" Username="Beneficiary Account Number" autofocus>
+                <h2 class="enterAmountInBeneficiary-heading">Enter Amount</h2>
+                <input type="number" id="beneficiaryAmount" Username="Amount in USD">
+                <button id="beneficiaryTransferButton" class="modal-button">Transfer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Function to remove the active class from all menu items
+    function removeActiveClasses() {
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.classList.remove('active');
+        });
+    }
+
+    // Add click event listener to each menu item
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', function() {
+            removeActiveClasses(); // Remove active class from all menu items
+            item.classList.add('active'); // Add active class to the clicked item
+        });
+    });
+
+    function showSection(sectionId) {
+        const currentActive = document.querySelector('.content-section.show');
+        if (currentActive) {
+            currentActive.classList.remove('show');
+            setTimeout(() => {
+                currentActive.style.display = 'none';
+                const newActive = document.getElementById(sectionId);
+                newActive.style.display = 'block';
+                setTimeout(() => {
+                    newActive.classList.add('show');
+                }, 10); // Slight delay to allow display change
+            }, 500); // Match duration of opacity transition
+        } else {
+            const newActive = document.getElementById(sectionId);
+            newActive.style.display = 'block';
+            setTimeout(() => {
+                newActive.classList.add('show');
+            }, 10);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('overviewBtn').addEventListener('click', function() {
+            showSection('overviewContent');
+        });
+        document.getElementById('accountsBtn').addEventListener('click', function() {
+            showSection('accountsContent');
+        });
+        document.getElementById('depositBtn').addEventListener('click', function() {
+            showSection('depositContent');
+        });
+        document.getElementById('withdrawalBtn').addEventListener('click', function() {
+            showSection('withdrawalContent');
+        });
+        document.getElementById('transferBtn').addEventListener('click', function() {
+            showSection('transferContent');
+        });
+
+        // Initially show the overview content
+        showSection('overviewContent');
+
+        // Get the modal elements for deposit, withdrawal, and transfer
+        var depositModal = document.getElementById("depositModal");
+        var withdrawalModal = document.getElementById("withdrawalModal");
+        var betweenAccountsModal = document.getElementById("betweenAccountsModal");
+        var beneficiaryTransferModal = document.getElementById("beneficiaryTransferModal");
+
+        // Get the buttons that open the modals
+        var depositBtn = document.querySelector(".deposit-box");
+        var withdrawalBtn = document.querySelector(".withdrawal-box");
+        var betweenAccountsBtn = document.getElementById("betweenAccountsBtn");
+        var beneficiaryTransferBtn = document.getElementById("beneficiaryTransferBtn");
+
+        // Get the <span> elements that close the modals
+        var closeDepositBtn = depositModal.querySelector(".close-button");
+        var closeWithdrawalBtn = withdrawalModal.querySelector(".close-button");
+        var closeBetweenAccountsBtn = betweenAccountsModal.querySelector(".close-button");
+        var closeBeneficiaryTransferBtn = beneficiaryTransferModal.querySelector(".close-button");
+
+        // When the user clicks the button, open the deposit modal
+        depositBtn.onclick = function() {
+            depositModal.style.display = "block";
+            setTimeout(() => {
+                depositModal.style.backgroundColor = "rgba(0,0,0,0.4)"; // Fade background to dark
+                depositModal.querySelector(".deposit-modal-content").style.opacity = 1;
+                depositModal.querySelector(".deposit-modal-content").style.transform = "scale(1)";
+            }, 10); // delay to allow modal display to update
+        }
+
+        // When the user clicks the button, open the withdrawal modal
+        withdrawalBtn.onclick = function() {
+            withdrawalModal.style.display = "block";
+            setTimeout(() => {
+                withdrawalModal.style.backgroundColor = "rgba(0,0,0,0.4)"; // Fade background to dark
+                withdrawalModal.querySelector(".withdrawal-modal-content").style.opacity = 1;
+                withdrawalModal.querySelector(".withdrawal-modal-content").style.transform = "scale(1)";
+            }, 10); // delay to allow modal display to update
+        }
+
+        // When the user clicks the button, open the between accounts transfer modal
+        betweenAccountsBtn.onclick = function() {
+            betweenAccountsModal.style.display = "block";
+            setTimeout(() => {
+                betweenAccountsModal.style.backgroundColor = "rgba(0,0,0,0.4)"; // Fade background to dark
+                betweenAccountsModal.querySelector(".transfer-modal-content").style.opacity = 1;
+                betweenAccountsModal.querySelector(".transfer-modal-content").style.transform = "scale(1)";
+            }, 10); // delay to allow modal display to update
+        }
+
+        // When the user clicks the button, open the beneficiary transfer modal
+        beneficiaryTransferBtn.onclick = function() {
+            beneficiaryTransferModal.style.display = "block";
+            setTimeout(() => {
+                beneficiaryTransferModal.style.backgroundColor = "rgba(0,0,0,0.4)"; // Fade background to dark
+                beneficiaryTransferModal.querySelector(".transfer-modal-content").style.opacity = 1;
+                beneficiaryTransferModal.querySelector(".transfer-modal-content").style.transform = "scale(1)";
+            }, 10); // delay to allow modal display to update
+        }
+
+        // When the user clicks on <span> (x), close the deposit modal
+        closeDepositBtn.onclick = function() {
+            depositModal.querySelector(".deposit-modal-content").style.opacity = 0;
+            depositModal.querySelector(".deposit-modal-content").style.transform = "scale(0.9)";
+            setTimeout(() => {
+                depositModal.style.backgroundColor = "rgba(0,0,0,0)"; // Fade background to transparent
+                setTimeout(() => {
+                    depositModal.style.display = "none";
+                }, 500); // Wait for the fade to complete before hiding the modal
+            }, 500);
+        }
+
+        // When the user clicks on <span> (x), close the withdrawal modal
+        closeWithdrawalBtn.onclick = function() {
+            withdrawalModal.querySelector(".withdrawal-modal-content").style.opacity = 0;
+            withdrawalModal.querySelector(".withdrawal-modal-content").style.transform = "scale(0.9)";
+            setTimeout(() => {
+                withdrawalModal.style.backgroundColor = "rgba(0,0,0,0)"; // Fade background to transparent
+                setTimeout(() => {
+                    withdrawalModal.style.display = "none";
+                }, 500); // Wait for the fade to complete before hiding the modal
+            }, 500);
+        }
+
+        // When the user clicks on <span> (x), close the between accounts transfer modal
+        closeBetweenAccountsBtn.onclick = function() {
+            betweenAccountsModal.querySelector(".transfer-modal-content").style.opacity = 0;
+            betweenAccountsModal.querySelector(".transfer-modal-content").style.transform = "scale(0.9)";
+            setTimeout(() => {
+                betweenAccountsModal.style.backgroundColor = "rgba(0,0,0,0)"; // Fade background to transparent
+                setTimeout(() => {
+                    betweenAccountsModal.style.display = "none";
+                }, 500); // Wait for the fade to complete before hiding the modal
+            }, 500);
+        }
+
+        // When the user clicks on <span> (x), close the beneficiary transfer modal
+        closeBeneficiaryTransferBtn.onclick = function() {
+            beneficiaryTransferModal.querySelector(".transfer-modal-content").style.opacity = 0;
+            beneficiaryTransferModal.querySelector(".transfer-modal-content").style.transform = "scale(0.9)";
+            setTimeout(() => {
+                beneficiaryTransferModal.style.backgroundColor = "rgba(0,0,0,0)"; // Fade background to transparent
+                setTimeout(() => {
+                    beneficiaryTransferModal.style.display = "none";
+                }, 500); // Wait for the fade to complete before hiding the modal
+            }, 500);
+        }
+
+        // When the user clicks anywhere outside of the modals, close them
+        window.onclick = function(event) {
+            if (event.target == depositModal) {
+                depositModal.querySelector(".deposit-modal-content").style.opacity = 0;
+                depositModal.querySelector(".deposit-modal-content").style.transform = "scale(0.9)";
+                setTimeout(() => {
+                    depositModal.style.backgroundColor = "rgba(0,0,0,0)"; // Fade background to transparent
+                    setTimeout(() => {
+                        depositModal.style.display = "none";
+                    }, 500); // Wait for the fade to complete before hiding the modal
+                }, 500);
+            } else if (event.target == withdrawalModal) {
+                withdrawalModal.querySelector(".withdrawal-modal-content").style.opacity = 0;
+                withdrawalModal.querySelector(".withdrawal-modal-content").style.transform = "scale(0.9)";
+                setTimeout(() => {
+                    withdrawalModal.style.backgroundColor = "rgba(0,0,0,0)"; // Fade background to transparent
+                    setTimeout(() => {
+                        withdrawalModal.style.display = "none";
+                    }, 500); // Wait for the fade to complete before hiding the modal
+                }, 500);
+            } else if (event.target == betweenAccountsModal) {
+                betweenAccountsModal.querySelector(".transfer-modal-content").style.opacity = 0;
+                betweenAccountsModal.querySelector(".transfer-modal-content").style.transform = "scale(0.9)";
+                setTimeout(() => {
+                    betweenAccountsModal.style.backgroundColor = "rgba(0,0,0,0)"; // Fade background to transparent
+                    setTimeout(() => {
+                        betweenAccountsModal.style.display = "none";
+                    }, 500); // Wait for the fade to complete before hiding the modal
+                }, 500);
+            } else if (event.target == beneficiaryTransferModal) {
+                beneficiaryTransferModal.querySelector(".transfer-modal-content").style.opacity = 0;
+                beneficiaryTransferModal.querySelector(".transfer-modal-content").style.transform = "scale(0.9)";
+                setTimeout(() => {
+                    beneficiaryTransferModal.style.backgroundColor = "rgba(0,0,0,0)"; // Fade background to transparent
+                    setTimeout(() => {
+                        beneficiaryTransferModal.style.display = "none";
+                    }, 500); // Wait for the fade to complete before hiding the modal
+                }, 500);
+            }
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+    // Create new account functionality
+    var accountCounter = 2; // Start with account 2 since baseAccount is account 1
+    var createAccountBtn = document.getElementById('createAccountBtn');
+    var accountContainer = document.getElementById('accountContainer');
+
+    createAccountBtn.addEventListener('click', function() {
+        // Create a new account box
+        var newAccountBox = document.createElement('div');
+        newAccountBox.classList.add('account-box');
+        newAccountBox.id = 'account' + accountCounter;
+
+        // Add content to the new account box
+        newAccountBox.innerHTML = `
+            <div class="remove-account"><i class="fas fa-trash"></i> Remove Account</div>
+            <div>Account Number</div>
+            <div><strong>987654321${accountCounter}</strong></div>
+            <div>Balance</div>
+            <div><strong>$0.00</strong></div>
+        `;
+
+        // Insert the new account box before the createAccountBtn
+        accountContainer.insertBefore(newAccountBox, createAccountBtn);
+
+        // Check if the number of accounts is even
+        var accountBoxes = document.querySelectorAll('.account-box');
+        if (accountBoxes.length % 2 === 0) {
+            // Move the "Create New Account" box to the next line
+            accountContainer.appendChild(createAccountBtn);
+        }
+
+        // Add event listener to remove account
+        newAccountBox.querySelector('.remove-account').addEventListener('click', function() {
+            newAccountBox.remove();
+
+            // Re-check if the number of accounts is even after removal
+            accountBoxes = document.querySelectorAll('.account-box');
+            if (accountBoxes.length % 2 !== 0) {
+                // Move the "Create New Account" box back to the same row
+                accountContainer.insertBefore(createAccountBtn, null);
+            }
+        });
+
+        accountCounter++; // Increment the account counter
+    });
+});
+
+
+
+
+</script>
+</body>
+</html>
