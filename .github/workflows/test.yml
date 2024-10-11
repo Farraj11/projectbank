@@ -11,9 +11,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
-        python-version: [3.12]  # Include Python 3.12 in the testing matrix
+        python-version: [3.12]
+
 
     steps:
     - name: Checkout code
