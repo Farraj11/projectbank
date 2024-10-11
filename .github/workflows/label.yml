@@ -1,22 +1,31 @@
-# This workflow will triage pull requests and apply a label based on the
-# paths that are modified in the pull request.
-#
-# To use this workflow, you will need to set up a .github/labeler.yml
-# file with configuration.  For more information, see:
-# https://github.com/actions/labeler
+name: Automated Testing
 
-name: Labeler
-on: [pull_request_target]
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  label:
-
+  test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, 3.10]
 
     steps:
-    - uses: actions/labeler@v4
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
       with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt || echo "No requirements file found"
+
+    - name: Run Unit Tests
+      run: |
+        python -m unittest discover -s ./__pycache__ -p "*_test.py"
