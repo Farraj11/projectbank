@@ -61,9 +61,10 @@ class TestBankOperations(unittest.TestCase):
 
     def test_transfer_to_same_account(self):
         """Test transferring to the same account (should raise error)."""
-        message = self.account1.transfer(self.account1.account_number, 100)
+        message = self.account1.transfer(self.account1.account_number, 100200)
         self.assertEqual(message, "Transfer failed. Unable to withdraw the full amount.")
         self.assertEqual(self.account1.balance, 1000)
+
 
 if __name__ == '__main__':
     unittest.main()
